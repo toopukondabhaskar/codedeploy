@@ -1,0 +1,22 @@
+version: 2
+jobs:
+  build:
+    #docker:
+      #- image: circleci/ruby:2.4
+      #- image: circleci/redis:4.0
+    machine:
+      enabled: true
+    working_directory: ~/tmp/codedeploy
+    steps:
+      - checkout
+      - run: 
+          sudo apt-get update && sudo apt-get install nginx -y    
+      - run: 
+          sudo pip install awscli
+      - run: 
+           aws s3 sync ~/tmp/codedeploy s3://s3awscirclecidemo --delete
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
